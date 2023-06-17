@@ -8,5 +8,5 @@ Tutorial In-Game. Bugs included.
 - python (tested with 3.10)
 - pygame (min 2.1)
 
-
-due to limited testing might not work properly on linux
+## running the game
+- run game.py with python3
