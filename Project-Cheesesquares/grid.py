@@ -106,7 +106,7 @@ class Grid:
         if direction != "":
             direction = "." + direction
         try:
-            do(eval(f"self.grid[x][x]{direction}"))  # sehr böser weg um das zu tun
+            do(eval(f"self.grid[x][x]{direction}"))  # very evil way of doing this
         except IndexError:
             pass
 
@@ -117,32 +117,33 @@ class Grid:
         """
         edge_neighbors = []
         if pos.y % 2 == 0:
-            self.tryget(int(pos.x), int((pos.y - 2) / 2), "north", edge_neighbors.append)
-            self.tryget(int(pos.x), int((pos.y - 2) / 2), "south", edge_neighbors.append)
-            self.tryget(int(pos.x - 1), int((pos.y - 2) / 2), "north", edge_neighbors.append)
-            self.tryget(int(pos.x - 1), int((pos.y - 2) / 2), "south", edge_neighbors.append)
-            self.tryget(int(pos.x), int((pos.y - 2) / 2 - 1), "west", edge_neighbors.append)
-            self.tryget(int(pos.x), int((pos.y - 2) / 2 + 1), "west", edge_neighbors.append)
-            #edge_neighbors = [self.grid[int(pos.x)][int((pos.y-2)/2)].north,
-            #                  self.grid[int(pos.x)][int((pos.y-2)/2)].south,
-            #                  self.grid[int(pos.x-1)][int((pos.y-2)/2)].north,
-            #                  self.grid[int(pos.x-1)][int((pos.y-2)/2)].south,
-            #                  self.grid[int(pos.x)][int((pos.y-2)/2)-1].west,
-            #                  self.grid[int(pos.x)][int((pos.y - 2) / 2)+1].west]
+            try: edge_neighbors.append(self.grid[int(pos.x)][int((pos.y - 2) / 2)].north)
+            except IndexError: pass
+            try: edge_neighbors.append(self.grid[int(pos.x)][int((pos.y - 2) / 2)].south)
+            except IndexError: pass
+            try: edge_neighbors.append(self.grid[int(pos.x - 1)][int((pos.y - 2) / 2)].north)
+            except IndexError: pass
+            try: edge_neighbors.append(self.grid[int(pos.x - 1)][int((pos.y - 2) / 2)].south)
+            except IndexError: pass
+            try: edge_neighbors.append(self.grid[int(pos.x)][int((pos.y - 2) / 2 + 1)].west)
+            except IndexError: pass
+            try: edge_neighbors.append(self.grid[int(pos.x)][int((pos.y - 2) / 2 - 1)].west)
+            except IndexError: pass
+
         else:
-            self.tryget(int(pos.x), int((pos.y - 2) / 2), "west", edge_neighbors.append)
-            self.tryget(int(pos.x), int((pos.y - 2) / 2), "east", edge_neighbors.append)
-            self.tryget(int(pos.x + 1), int((pos.y - 2) / 2), "south", edge_neighbors.append)
-            self.tryget(int(pos.x - 1), int((pos.y - 2) / 2), "south", edge_neighbors.append)
-            self.tryget(int(pos.x), int((pos.y - 2) / 2 + 1), "west", edge_neighbors.append)
-            self.tryget(int(pos.x), int((pos.y - 2) / 2 + 1), "east", edge_neighbors.append)
-            #edge_neighbors = [self.grid[int(pos.x)][int((pos.y-2)/2)].west,
-            #                  self.grid[int(pos.x)][int((pos.y-2)/2)].east,
-            #                  self.grid[int(pos.x+1)][int((pos.y - 2)/2)].south,
-            #                  self.grid[int(pos.x-1)][int((pos.y - 2)/2)].south,
-            #                  self.grid[int(pos.x)][int((pos.y-2)/2)+1].west,
-            #                  self.grid[int(pos.x)][int((pos.y-2)/2)+1].east]
-        return edge_player in edge_neighbors or self.neutral in edge_neighbors
+            try: edge_neighbors.append(self.grid[int(pos.x + 1)][int((pos.y-2) / 2)].south)
+            except IndexError: pass
+            try: edge_neighbors.append(self.grid[int(pos.x - 1)][int((pos.y-2) / 2)].south)
+            except IndexError: pass
+            try: edge_neighbors.append(self.grid[int(pos.x)][int((pos.y-2) / 2)].east)
+            except IndexError: pass
+            try: edge_neighbors.append(self.grid[int(pos.x)][int((pos.y-2) / 2)].west)
+            except IndexError: pass
+            try: edge_neighbors.append(self.grid[int(pos.x)][int(((pos.y-1) / 2))].west)
+            except IndexError: pass
+            try: edge_neighbors.append(self.grid[int(pos.x)][int(((pos.y-1) / 2))].east)
+            except IndexError: pass
+        return (edge_player in edge_neighbors) or (self.neutral in edge_neighbors)
 
     def place(self, player: player.Player, pos: pygame.Vector2, admin: bool=False) -> None:
         """
@@ -200,6 +201,7 @@ class Grid:
         """
         g = type(self)(1, 1, self.players)
         g.players = self.players
+        g.neutral = self.neutral
         g.active_player = self.active_player
         g.width = self.width
         g.height = self.height

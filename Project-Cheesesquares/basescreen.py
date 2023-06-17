@@ -131,7 +131,7 @@ def listen() -> pygame.Vector2|None:
     debugpatch.setlines("\n---DEBUG---")  # update debug
     debugpatch.appendlines("".join(debuglog), (100, 255, 255))
     frag_size = ((m[0] - camera.x - 50*(((m[1])//100-1) % 2)) / 100, (m[1] - camera.y - 25) / 50)
-    lightup = pygame.Vector2(int(frag_size[0]), int(frag_size[1]))
+    lightup = pygame.Vector2(int(frag_size[0]+1), int(frag_size[1]))
 
     root.fill(pygame.Color(0, 50, 50))  # Fill window background
     pygame.draw.circle(root, pygame.Color(0, 60, 60), pygame.Vector2(lightup.x * 100 + ((lightup.y+1)%2*-50) + 50, (lightup.y) * 50 + 50) + pygame.Vector2(camera.x, camera.y), 25)

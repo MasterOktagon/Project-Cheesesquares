@@ -1,4 +1,5 @@
-from turtle import position
+import time
+
 import pygame
 import basescreen
 import grid
@@ -26,6 +27,7 @@ class Computer(player.Player):
         """
         
         pos = basescreen.listen()
+        time.sleep(0.5)
         return self.evaluate_grid(grid.copy())
     
 
@@ -47,7 +49,7 @@ class Computer(player.Player):
                 except IndexError: pass
                 except EOFError: pass
 
-        print(options_position)
+        print(options_position, options)
         if len(options_position) == 1: return options_position[0]
         return options_position[options.index(max(options))]
                         

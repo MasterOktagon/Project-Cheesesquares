@@ -43,9 +43,9 @@ def menu() -> list:
                 if event.id == pve.get_id():
                     running = False
                     p1inputting = False
-                    return [computer.Computer(),
+                    return [
                         player.Player(p1input.text[:-1], (random.randint(128, 255), random.randint(128, 255), random.randint(128, 255))),
-                            ]
+                            computer.Computer()]
                 elif event.id == pvp.get_id():
                     running = False
                     p1inputting = False
